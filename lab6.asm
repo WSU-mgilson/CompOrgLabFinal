@@ -8,6 +8,7 @@
 
 ; Main's return value
 LD R6, STACK_BASE		; R6 = x6000
+LD R4 WORDZ
 
 ; Main's return address
 ADD R6, R6, #-1			; R6 = x5FFF
@@ -207,6 +208,7 @@ ADD R6, R6, #1			; R6 = x6000
 HALT
 
 STACK_BASE .FILL x6000
+WORDZ .FILL Gloabls ; Needs to be closer, because I cant reach it in lc3
 
 LOWERCASE_A .FILL x0061
 LOWERCASE_P .FILL x0070
@@ -217,15 +219,91 @@ PROMPT_MENU .STRINGz 	"Available options:\np - Print linked list\na - Add value 
 PROMPT_PRINT .STRINGz 	"\nContents of the linked list: \n"
 PROMPT_ADD .STRINGz 	"\nType a number to add: \n"
 PROMPT_REMOVE .STRINGz 	"\nType a number to remove: \n"
+Gloabls
+.BLKW #100
+
+
+
+
 
 ; void printList(node_t **head)
 PRINT_LIST
 
 RET
 
-; void addValue(node_t **head, int added)
+; void addValue(node_t **head, int added) ;need to check for null pointers
 ADD_VALUE
+ADD R6, R6, #-1 
+STR R7, R6, #0
 
+ADD R6, R6, #-1
+STR R5, R6, #0
+ADD R5, R6, #0
+
+
+ADD R6, R6, #-1
+STR R3, R6, #0
+
+ADD R6, R6, #-1
+STR R2, R6, #0
+
+ADD R6, R6, #-1
+STR R1, R6, #0
+
+ADD R6, R6, #-1
+STR R0, R6, #0
+
+
+
+
+;R5 + 3 = my headf
+LDR R0, R5, #3 
+;If my head is 0 = null pointer, I dont think I would need to check for index out of bounds but Ill throw n on branch ;anyways
+LDR R1, R0, #0 ;Store the value in R1 at R2
+BRz NULL_PTR 
+
+    LIST_STEP_THROUGH
+    ADD R0, R1, #1
+    LDR R2, R1, #1
+BRz NULL_PTR
+    ADD R1 R2, #0
+    BR LIST_STEP_THROUGH
+NULL_PTR
+
+ADD R1, R4, #0
+ADD R4, R4, #2
+
+STR R1, R0, #0
+
+LDR R2, R5, #2
+STR R2, R1, #0
+
+AND R2, R2, #0
+STR R2, R1, #1
+
+
+
+
+
+LDR R0, R6, #0 ;Pop R0
+ADD R6, R6, #1
+
+LDR R1, R6, #0 ;Pop R1
+ADD R6, R6, #1
+
+LDR R2, R6, #0 ;Pop R2
+ADD R6, R6, #1
+
+LDR R3, R6, #0 ;Pop R3
+ADD R6, R6, #1
+
+
+LDR R5, R6, #0 ;Pop R5
+ADD R6, R6, #1
+
+LDR R7, R6, #0 ;Pop R7 
+ADD R6, R6, #1
+;with example(31) before RET R6 = x5FF9
 RET
 
 ; void removeValue(node_t **head, int removed)

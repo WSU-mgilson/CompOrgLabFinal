@@ -56,7 +56,7 @@ ADD R0, R2, R0
 
 
 ;Get my loot 
-LDR R4, R6, #0 ;Pop R4
+LDR R4, R6, #0 ;Pop R4 and Get the value from R6 and store it in R4
 ADD R6, R6, #1
 
 LDR R3, R6, #0 ;Pop R3
