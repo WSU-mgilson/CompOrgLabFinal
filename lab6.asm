@@ -222,7 +222,7 @@ PROMPT_REMOVE .STRINGz 	"\nType a number to remove: \n"
 Gloabls
 .BLKW #100
 NEWLINE .STRINGz "\n"
-ARROW .STRINGz "->\n"
+ARROW .STRINGz " -> "
 
 
 
@@ -261,8 +261,9 @@ LDR R1, R0, #0 ;current is in R1
 PRINT_ARROWS
 ADD R1, R1, #0
     BRnz CUR_EQ_NULL
-    LDR R3, R1, #0
-    ADD R2, R2, R3
+    LDR R0, R1, #0 ;Switch from LDR into R3 to R0 so my trap can see it
+    ;ADD R2, R2, R3 testing
+    TRAP x41
     LDR R1, R1, #1 
     BRnz CUR_EQ_NULL
 LEA R0, ARROW
