@@ -159,9 +159,9 @@ PUTS
 
 ; Call TRAP service routine for getting number here
 ; For testing purposes, let's use 12
-AND R0, R0, #0			; Comment this out after implementing your TRAP service routine
-ADD R0, R0, #12			; Comment this out after implementing your TRAP service routine
-
+;AND R0, R0, #0			; Comment this out after implementing your TRAP service routine
+;ADD R0, R0, #12			; Comment this out after implementing your TRAP service routine
+TRAP x40
 ; Store number entered into int r
 STR R0, R5, #-3
 
@@ -340,7 +340,7 @@ ADD R4, R4, #2
 
 STR R1, R0, #0
 
-LDR R2, R5, #2
+LDR R2, R5, #2 ;2nd param -> R2
 STR R2, R1, #0
 
 AND R2, R2, #0
@@ -372,7 +372,78 @@ ADD R6, R6, #1
 RET
 
 ; void removeValue(node_t **head, int removed)
+;Set the head to the next 
 REMOVE_VALUE
+ADD R6, R6, #-1 
+STR R7, R6, #0
+
+ADD R6, R6, #-1
+STR R5, R6, #0
+ADD R5, R6, #0
+
+ADD R6, R6, #-1
+STR R4, R6, #0
+
+ADD R6, R6, #-1
+STR R3, R6, #0
+
+ADD R6, R6, #-1
+STR R2, R6, #0
+
+ADD R6, R6, #-1
+STR R1, R6, #0
+
+ADD R6, R6, #-1
+STR R0, R6, #0
+
+
+LDR R0, R5, #3  ;R0 is &head
+LDR R1, R0, #0  ;Curr head is in R1
+
+LDR R2, R5, #2
+NOT R2, R2
+ADD R2, R2, #1 ;R2 now is my inverted value
+
+;Mybe I can flip R1, loop through the LL and if I subtract the current value from its NOT, I would need a branch for the result for on zero 
+ADD R1, R1, #0
+
+REMOVE
+ADD R1, R1, #0
+
+    BRz REM_DONE
+    LDR R3, R1, #0
+    ADD R3, R2, R3
+    BRz ELEMENT_FOUND
+    ADD R0, R1, #1
+    LDR R1, R1, #1 
+BR REMOVE
+ELEMENT_FOUND
+LDR R3, R1, #1 ;R3 now is pointing at the next addr
+STR R3, R0, #0
+REM_DONE
+
+
+LDR R0, R6, #0 ;Pop R0
+ADD R6, R6, #1
+
+LDR R1, R6, #0 ;Pop R1
+ADD R6, R6, #1
+
+LDR R2, R6, #0 ;Pop R2
+ADD R6, R6, #1
+
+LDR R3, R6, #0 ;Pop R3
+ADD R6, R6, #1
+
+LDR R4, R6, #0 ;Pop R4
+ADD R6, R6, #1
+
+
+LDR R5, R6, #0 ;Pop R5
+ADD R6, R6, #1
+
+LDR R7, R6, #0 ;Pop R7 
+ADD R6, R6, #1
 
 RET
 
