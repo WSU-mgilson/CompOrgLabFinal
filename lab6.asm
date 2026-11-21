@@ -221,6 +221,8 @@ PROMPT_ADD .STRINGz 	"\nType a number to add: \n"
 PROMPT_REMOVE .STRINGz 	"\nType a number to remove: \n"
 Gloabls
 .BLKW #100
+NEWLINE .STRINGz "\n"
+ARROW .STRINGz "->\n"
 
 
 
@@ -228,6 +230,69 @@ Gloabls
 
 ; void printList(node_t **head)
 PRINT_LIST
+ADD R6, R6, #-1 
+STR R7, R6, #0
+
+ADD R6, R6, #-1
+STR R5, R6, #0
+ADD R5, R6, #0
+
+ADD R6, R6, #-1
+STR R3, R6, #0
+
+ADD R6, R6, #-1
+STR R2, R6, #0
+
+ADD R6, R6, #-1
+STR R1, R6, #0
+
+ADD R6, R6, #-1
+STR R0, R6, #0
+
+
+LDR R0, R5, #2
+LDR R1, R0, #0 ;current is in R1
+
+;If curr == 0
+;Print the newline
+
+
+
+PRINT_ARROWS
+ADD R1, R1, #0
+    BRnz CUR_EQ_NULL
+    LDR R3, R1, #0
+    ADD R2, R2, R3
+    LDR R1, R1, #1 
+    BRnz CUR_EQ_NULL
+LEA R0, ARROW
+PUTS
+BR PRINT_ARROWS
+CUR_EQ_NULL
+LEA R0, NEWLINE
+PUTS
+
+LDR R0, R6, #0 ;Pop R0
+ADD R6, R6, #1
+
+LDR R1, R6, #0 ;Pop R1
+ADD R6, R6, #1
+
+LDR R2, R6, #0 ;Pop R2
+ADD R6, R6, #1
+
+LDR R3, R6, #0 ;Pop R3
+ADD R6, R6, #1
+
+
+LDR R5, R6, #0 ;Pop R5
+ADD R6, R6, #1
+
+LDR R7, R6, #0 ;Pop R7 
+ADD R6, R6, #1
+
+
+
 
 RET
 
